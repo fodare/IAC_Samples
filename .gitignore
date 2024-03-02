@@ -1,0 +1,9 @@
+# Loclal terraform config files
+
+.terraform
+.terraform*
+terraform.*
+
+
+# Azure config fiels
+azureterraform
