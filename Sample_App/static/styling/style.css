@@ -1,0 +1,56 @@
+body{
+    background-color: #1C1E24;
+    color: #f8f9fa;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0;
+    display: block;
+    padding: 1rem 0;
+}
+/* Colors */
+:root{
+    --orange: #ff7e22;
+    --yellow: #fca62a;
+    --pink: #f57ad0;
+    --purple: #673ece;
+    --indigo: #5a43f1;
+    --indigo-dark: #4509cf;
+    --indigo-light: #969bf6;
+    --indigo-muted: #f1f2fd;
+    --text-color: #f8f9fa;
+    --backgroud-color:#1C1E24;
+    --wise-green: #9FE870
+}
+
+/* Page Header */
+.pageHeader{
+    margin-top: 3rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.wiseRefrence{
+    text-decoration: none;
+    color: #f8f9fa;
+    border-bottom:0.5px dashed var(--wise-green) ;
+}
+
+.comparisonCurrnecyDiv{
+    top: 40%;
+    left: 30%;
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.currencyInput{
+    display: flex;
+    justify-content: center;
+    
+}
+
+.inputItem{
+    margin-right: 2rem;
+}
+
+.comparisonResult{
+    margin-top: 2rem;
+}
