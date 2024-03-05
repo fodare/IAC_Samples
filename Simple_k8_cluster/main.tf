@@ -26,23 +26,23 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "devrg" {
-  name     = "Dev-ResourceGroup"
-  location = "NORTH EUROPE"
+  name     = var.resource_group_name
+  location = var.resource_group_location
   tags = {
-    Environment = "Dev"
+    Environment = var.environment_tag
   }
 }
 
 resource "azurerm_kubernetes_cluster" "devK8sCluster" {
-  name                = "dev_k8s"
+  name                = "${var.cluster_name}k8s"
   location            = azurerm_resource_group.devrg.location
   resource_group_name = azurerm_resource_group.devrg.name
   dns_prefix          = "devaks"
 
   default_node_pool {
-    name       = "devaksnode"
+    name       = var.node_name
     node_count = var.node_count
-    vm_size    = "Standard_D2_v2"
+    vm_size    = var.node_vm_size
   }
 
   identity {
@@ -50,6 +50,6 @@ resource "azurerm_kubernetes_cluster" "devK8sCluster" {
   }
 
   tags = {
-    Environment = "Dev"
+    Environment = var.environment_tag
   }
 }
