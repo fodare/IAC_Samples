@@ -39,4 +39,11 @@ az login --tenant {tenant id}
 
 # Connect to cluster
 az aks get-credentials --name {enter cluster name} -- resource-group {enter resource group name}
+
+# Deploy app to cluster
+kubectl apply app_deployment.yaml
+
+# Get K8s services. The public IP adess and port from the browser exposes
+# sample app.
+kubectl get services
 ```

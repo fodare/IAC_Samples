@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: wiseapp
+  name: wiseapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wiseapp
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wiseapp
+    spec:
+      containers:
+      - image: openops/wise_comparison:0.1
+        imagePullPolicy: IfNotPresent
+        name: wiseapp
+        resources: {}
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        ports:
+        - containerPort: 5000
+---
+# Service Defination
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: wiseapp
+  name: wiseapp
+  namespace: default
+spec:
+  ports:
+  # - nodePort: 30668
+  - port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: wiseapp
+  sessionAffinity: None
+  # type: NodePort
