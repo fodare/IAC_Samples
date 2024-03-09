@@ -24,8 +24,8 @@ spec:
         imagePullPolicy: IfNotPresent
         name: wiseapp
         resources: {}
-        restartPolicy: Always
-        terminationGracePeriodSeconds: 30
+        #restartPolicy: Always
+        #terminationGracePeriodSeconds: 30
         ports:
         - containerPort: 5000
 ---
@@ -46,4 +46,4 @@ spec:
   selector:
     app: wiseapp
   sessionAffinity: None
-  # type: NodePort
+  # type: NodePortlofi drilllofi drill
