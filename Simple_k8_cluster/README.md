@@ -41,7 +41,7 @@ az login --tenant {tenant id}
 az aks get-credentials --name {enter cluster name} -- resource-group {enter resource group name}
 
 # Deploy app to cluster
-kubectl apply app_deployment.yaml
+kubectl apply -f app_deployment.yaml --namespace default
 
 # Expose  the deployment
 kubectl expose deployment wiseapp --type=LoadBalancer --name=wise-serviced
