@@ -43,6 +43,9 @@ az aks get-credentials --name {enter cluster name} -- resource-group {enter reso
 # Deploy app to cluster
 kubectl apply app_deployment.yaml
 
+# Expose  the deployment
+kubectl expose deployment wiseapp --type=LoadBalancer --name=wise-serviced
+
 # Get K8s services. The public IP adess and port from the browser exposes
 # sample app.
 kubectl get services
