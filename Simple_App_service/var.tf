@@ -36,5 +36,5 @@ variable "app_service_environment_tag" {
 variable "application_stack_version" {
   description = "Desired application stack version. Run az webapp list-runtimes --linux to see possible values."
   type        = string
-  default     = "3.9"
+  default     = "3.10"
 }
