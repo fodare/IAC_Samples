@@ -57,7 +57,7 @@ resource "azurerm_linux_web_app" "test_as" {
   }
 
   app_settings = {
-    SCM_DO_BUILD_DURING_DEPLOYMENT : true
-    WEBSITE_RUN_FROM_PACKAGE : 1
+    SCM_DO_BUILD_DURING_DEPLOYMENT = true
+    WEBSITES_PORT                  = 5000
   }
 }
