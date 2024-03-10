@@ -11,3 +11,6 @@ azureterraform
 # Flask local fiels
 .venv
 __pycache*
+
+# local Azure config files
+*.azure
