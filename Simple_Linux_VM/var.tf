@@ -41,6 +41,12 @@ variable "desired_network_security_group_name" {
 
 }
 
+variable "desired_vm_instance_count" {
+  description = "Number of vm instance to create"
+  type        = number
+  default     = 1
+}
+
 variable "virtual_machine_name" {
   description = "Desired virtual machine name. Note -vm is appened to name."
   type        = string
