@@ -98,14 +98,15 @@ resource "azurerm_network_interface_security_group_association" "main" {
 }
 
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
-  name                = "${var.virtual_machine_name}-vm"
+  count               = var.desired_vm_instance_count
+  name                = "${var.virtual_machine_name}-vm${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = var.virtual_machine_size
   admin_username      = var.virtual_machine_userName
   admin_ssh_key {
     username   = var.virtual_machine_userName
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("~/.ssh/azure_rsa.pub")
   }
   disable_password_authentication = true
   network_interface_ids = [
