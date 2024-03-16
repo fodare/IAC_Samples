@@ -33,14 +33,16 @@ resource "azurerm_subnet" "virtual_subnet" {
 }
 
 resource "azurerm_public_ip" "public_ip" {
-  name                = "${var.public_ip_name}-pip"
+  count               = var.desired_vm_instance_count
+  name                = "${var.public_ip_name}-pip${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   allocation_method   = "Dynamic"
 }
 
 resource "azurerm_network_interface" "main" {
-  name                = "${var.desired_network_interface_name}-nic1"
+  count               = var.desired_vm_instance_count
+  name                = "${var.desired_network_interface_name}-nic${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 
@@ -48,12 +50,12 @@ resource "azurerm_network_interface" "main" {
     name                          = "primary"
     subnet_id                     = azurerm_subnet.virtual_subnet.id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.public_ip.id
+    public_ip_address_id          = element(azurerm_public_ip.public_ip.*.id, count.index)
   }
 }
 
 resource "azurerm_network_interface" "internal" {
-  name                = "${var.desired_network_interface_name}-nic2"
+  name                = "${var.desired_network_interface_name}-nic"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
 
@@ -77,7 +79,7 @@ resource "azurerm_network_security_group" "webserver" {
     source_port_range          = "*"
     source_address_prefix      = "*"
     destination_port_range     = "443"
-    destination_address_prefix = azurerm_network_interface.main.private_ip_address
+    destination_address_prefix = "*"
   }
   security_rule {
     access                     = "Allow"
@@ -88,29 +90,31 @@ resource "azurerm_network_security_group" "webserver" {
     source_port_range          = "*"
     source_address_prefix      = "*"
     destination_port_range     = "22"
-    destination_address_prefix = azurerm_network_interface.main.private_ip_address
+    destination_address_prefix = "*"
   }
 }
 
 resource "azurerm_network_interface_security_group_association" "main" {
-  network_interface_id      = azurerm_network_interface.internal.id
+  count                     = var.desired_vm_instance_count
+  network_interface_id      = element(azurerm_network_interface.main.*.id, count.index)
   network_security_group_id = azurerm_network_security_group.webserver.id
 }
 
 resource "azurerm_linux_virtual_machine" "virtual_machine" {
-  name                = "${var.virtual_machine_name}-vm"
+  count               = var.desired_vm_instance_count
+  name                = "${var.virtual_machine_name}-vm${count.index}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
   size                = var.virtual_machine_size
   admin_username      = var.virtual_machine_userName
   admin_ssh_key {
     username   = var.virtual_machine_userName
-    public_key = file("~/.ssh/id_rsa.pub")
+    public_key = file("~/.ssh/azure_rsa.pub")
   }
   disable_password_authentication = true
   network_interface_ids = [
-    azurerm_network_interface.main.id,
-    azurerm_network_interface.internal.id,
+    element(azurerm_network_interface.main.*.id, count.index),
+    # azurerm_network_interface.internal.id,
   ]
 
   source_image_reference {

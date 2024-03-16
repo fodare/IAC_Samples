@@ -1,0 +1,17 @@
+---
+# Sample playbook to install Docker.
+- hosts: all
+  become: yes
+  become_user: root
+  tasks:
+    - name: Update and upgrade apt files
+      shell: apt-get update && apt-get upgrade -y && apt-get install ca-certificates curl -y
+
+    - name: Install Docker
+      ansible.builtin.shell: cd ~ && curl -fsSL https://get.docker.com -o get-docker.sh && sudo sh get-docker.sh
+
+    - name: Check installed docker version
+      shell: docker --version
+      register: docker_version
+    - debug: msg="{{docker_version.stdout}}"
+

@@ -1,10 +1,10 @@
 # Introduction
 
-Template creates a linux virtual machine with a public Ip address.
+Template creates a Linux virtual machine with a public IP address.
 
 ## Provisioning
 
-- First fill in and export Azure service principal in your CLI / termninal.
+- First fill in and export Azure service principal in your CLI / terminal.
 
 ```bash
 export ARM_CLIENT_ID="xxxxxxx"
@@ -13,7 +13,7 @@ export ARM_TENANT_ID="xxxxxxx"
 export ARM_SUBSCRIPTION_ID="xxxxxxx"
 ```
 
-- Create CLI az context.
+- Create CLI AZ context.
 
 ```bash
 az login --tenant <tenant id>
