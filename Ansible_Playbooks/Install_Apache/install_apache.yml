@@ -1,0 +1,19 @@
+---
+# Sample playbook to install apache web server.
+- hosts: all
+  # gather_facts=False
+  become: true
+  tasks:
+    - name: Update and upgrade apt files
+      shell: apt-get update && apt-get upgrade -y
+
+    - name: Install Apache web server
+      shell: apt-get install apache2 -y
+
+    - name: Start apache2 service
+      shell: systemctl start apache2
+
+    - name: Check apache2 status
+      shell: systemctl status apache2
+      register: apache2_status
+    - debug: msg="{{apache2_status.stdout}}"
