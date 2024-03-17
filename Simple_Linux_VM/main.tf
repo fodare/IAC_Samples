@@ -73,7 +73,7 @@ resource "azurerm_network_security_group" "webserver" {
   security_rule {
     access                     = "Allow"
     direction                  = "Inbound"
-    name                       = "tls"
+    name                       = "tls-https"
     priority                   = 100
     protocol                   = "Tcp"
     source_port_range          = "*"
@@ -90,6 +90,17 @@ resource "azurerm_network_security_group" "webserver" {
     source_port_range          = "*"
     source_address_prefix      = "*"
     destination_port_range     = "22"
+    destination_address_prefix = "*"
+  }
+  security_rule {
+    access                     = "Allow"
+    direction                  = "Inbound"
+    name                       = "tls-http"
+    priority                   = 102
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    source_address_prefix      = "*"
+    destination_port_range     = "80"
     destination_address_prefix = "*"
   }
 }

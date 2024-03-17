@@ -3,7 +3,15 @@
 - hosts: all
   become: yes
   become_user: root
+  # vars_files:
+  #   - variable.yml
+  vars:
+    variable1: "Value of variable 1"
+    variable2: "Value of variable 2"
   tasks:
+    - name: Print variable values
+      debug: msg="Variable1 = {{variable1}}. Variable2 = {{variable2}}"
+
     - name: Update and upgrade apt files
       shell: apt-get update && apt-get upgrade -y && apt-get install ca-certificates curl -y
 
