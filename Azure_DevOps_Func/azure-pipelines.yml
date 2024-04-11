@@ -32,10 +32,10 @@ stages:
       inputs:
         command: 'publish'
         publishWebProjects: false
-        modifyOutputPath: false
-        zipAfterPublish: false
         projects: '*.csproj'
-        arguments: '--configuration Release --output publish_output'
+        arguments: '--configuration Release'
+        zipAfterPublish: false
+        modifyOutputPath: false
         workingDirectory: '$(projectRoot)'
     
     - task: ArchiveFiles@2
