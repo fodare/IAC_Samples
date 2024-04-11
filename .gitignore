@@ -14,3 +14,6 @@ __pycache*
 
 # local Azure config files
 *.azure
+
+# Local VS code files
+*.vscode
