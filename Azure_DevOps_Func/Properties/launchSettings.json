@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Azure_DevOps_Func": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7098",
+      "launchBrowser": false
+    }
+  }
+}
