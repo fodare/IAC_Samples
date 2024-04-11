@@ -36,7 +36,7 @@ stages:
         arguments: '--configuration Release'
         zipAfterPublish: false
         modifyOutputPath: false
-        workingDirectory: '$(projectRoot)'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
     
     - task: ArchiveFiles@2
       inputs:
