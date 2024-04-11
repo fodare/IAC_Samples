@@ -16,7 +16,7 @@ stages:
     workspace:
       clean: all
   
-  - job: build-app 
+  - job: buildapp 
     displayName: Build and restore app
     steps:
     - script: |
@@ -24,7 +24,7 @@ stages:
         dotnet build --configuration Release
       workingDirectory: $(projectRoot)
   
-  - job: publish-app
+  - job: publishapp
     displayName: Publish and zip application project file
     steps:
     - task: DotNetCoreCLI@2
@@ -52,14 +52,14 @@ stages:
 
 - stage: Deploy
   jobs:
-    - job: Deploy-app
+    - job: Deployapp
       displayName: Deploy function app
       steps:
       - task: AzureFunctionApp@2
         inputs:
           connectedServiceNameARM: 'Az_SVC_Connection'
           appType: 'functionAppLinux'
-          appName: 'Azure_DevOps_Func'
+          appName: 'azure-devOps-func'
           package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
           deploymentMethod: 'auto'
