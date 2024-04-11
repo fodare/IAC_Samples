@@ -1,0 +1,65 @@
+trigger:
+- main
+
+pool:
+  name: Default
+  #vmImage: ubuntu-latest
+
+variables:
+  projectRoot: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
+
+stages:
+- stage: Build
+  jobs:
+  - job: clean
+    displayName: Clean agent build DIR
+    workspace:
+      clean: all
+  
+  - job: build-app 
+    displayName: Build and restore app
+    steps:
+    - script: |
+        dotnet restore
+        dotnet build --configuration Release
+      workingDirectory: $(projectRoot)
+  
+  - job: publish-app
+    displayName: Publish and zip application project file
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        modifyOutputPath: false
+        zipAfterPublish: false
+        projects: '*.csproj'
+        arguments: '--configuration Release --output publish_output'
+        workingDirectory: '$(projectRoot)'
+    
+    - task: ArchiveFiles@2
+      inputs:
+        rootFolderOrFile: '$(projectRoot)'
+        includeRootFolder: false
+        archiveType: 'zip'
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        ArtifactName: 'drop'
+
+- stage: Deploy
+  jobs:
+    - job: Deploy-app
+      displayName: Deploy function app
+      steps:
+      - task: AzureFunctionApp@2
+        inputs:
+          connectedServiceNameARM: 'Az_SVC_Connection'
+          appType: 'functionAppLinux'
+          appName: 'Azure_DevOps_Func'
+          package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          runtimeStack: 'DOTNET-ISOLATED|7.0'
+          deploymentMethod: 'auto'
