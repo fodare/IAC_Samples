@@ -17,3 +17,4 @@ __pycache*
 
 # Local VS code files
 *.vscode
+.fake
