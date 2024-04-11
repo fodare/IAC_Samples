@@ -28,15 +28,15 @@ stages:
     dependsOn: buildapp
     displayName: Publish and zip application project file
     steps:
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: '*.csproj'
-        arguments: '--configuration Release'
-        zipAfterPublish: false
-        modifyOutputPath: false
-        workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
+    # - task: DotNetCoreCLI@2
+    #   inputs:
+    #     command: 'publish'
+    #     publishWebProjects: false
+    #     projects: '*.csproj'
+    #     arguments: '--configuration Release'
+    #     zipAfterPublish: false
+    #     modifyOutputPath: false
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
     
     - task: ArchiveFiles@2
       inputs:
