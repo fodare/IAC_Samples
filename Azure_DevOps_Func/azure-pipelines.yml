@@ -25,6 +25,7 @@ stages:
       workingDirectory: $(projectRoot)
   
   - job: publishapp
+    dependsOn: buildapp
     displayName: Publish and zip application project file
     steps:
     - task: DotNetCoreCLI@2
@@ -51,6 +52,7 @@ stages:
         ArtifactName: 'drop'
 
 - stage: Deploy
+  dependsOn: Build
   jobs:
     - job: Deployapp
       displayName: Deploy function app
