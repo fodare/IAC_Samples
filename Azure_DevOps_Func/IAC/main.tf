@@ -34,14 +34,11 @@ resource "azurerm_service_plan" "azure_sp" {
   sku_name            = "Y1"
 }
 
-resource "azurerm_linux_function_app" "azure-fa" {
-  name                = var.function_app_name
-  resource_group_name = azurerm_resource_group.azure_rg.name
-  location            = azurerm_resource_group.azure_rg.location
-
+resource "azurerm_function_app" "azure_fa" {
+  name                       = var.function_app_name
+  location                   = azurerm_resource_group.azure_rg.location
+  resource_group_name        = azurerm_resource_group.azure_rg.name
+  app_service_plan_id        = azurerm_service_plan.azure_sp.id
   storage_account_name       = azurerm_storage_account.azure_sa.name
   storage_account_access_key = azurerm_storage_account.azure_sa.primary_access_key
-  service_plan_id            = azurerm_service_plan.azure_sp.id
-
-  site_config {}
 }
