@@ -40,7 +40,7 @@ stages:
     
     - task: ArchiveFiles@2
       inputs:
-        rootFolderOrFile: '$(projectRoot)'
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
         includeRootFolder: false
         archiveType: 'zip'
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
@@ -54,6 +54,17 @@ stages:
 - stage: Deploy
   dependsOn: Build
   jobs:
+    - job: 
+      displayName: Download build artifacts
+      steps:
+        - task: DownloadBuildArtifacts@1
+          inputs:
+            buildType: 'current'
+            downloadType: 'single'
+            artifactName: 'drop'
+            itemPattern: '**.zip'
+            downloadPath: '$(System.ArtifactsDirectory)'
+    
     - job: Deployapp
       displayName: Deploy function app
       steps:
@@ -62,6 +73,6 @@ stages:
           connectedServiceNameARM: 'Az_SVC_Connection'
           appType: 'functionAppLinux'
           appName: 'azure-devOps-func'
-          package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          package: '$(System.DefaultWorkingDirectory)/**/*.zip'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
           deploymentMethod: 'auto'
