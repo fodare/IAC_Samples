@@ -78,4 +78,4 @@ stages:
           appName: 'azure-devOps-func'
           package: '$(System.ArtifactsDirectory)'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
-          deploymentMethod: 'runFromPackage'
+          deploymentMethod: 'zipDeploy'
