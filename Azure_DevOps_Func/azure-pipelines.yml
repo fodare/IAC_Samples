@@ -51,7 +51,7 @@ stages:
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         ArtifactName: 'drop'
-        publishLocation: 'FilePath'
+        publishLocation: 'Container'
         
 
 - stage: Deploy
