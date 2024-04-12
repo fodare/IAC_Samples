@@ -22,8 +22,8 @@ namespace GreeetingsFunction
             if (req.Method == "GET")
             {
                 string? queryName = req.Query["name"];
-                string serverMessage = @$"Hello {queryName}.
-                    You have successfully triggred the test function app.";
+                string serverMessage = @$"Hello {queryName}. You successfully triggred the test function app.";
+                return new OkObjectResult(serverMessage);
             }
             string dynamicRequestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic jsonRequestData = JsonConvert.DeserializeObject(dynamicRequestBody);
