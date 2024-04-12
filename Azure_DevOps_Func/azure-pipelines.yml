@@ -70,15 +70,11 @@ stages:
     - job: Deployapp
       displayName: Deploy function app
       steps:
-      - task: AzureFunctionApp@1 # Add this at the end of your file
+      - task: AzureFunctionApp@2
         inputs:
-          azureSubscription: 'Az_SVC_Connection'
+          connectedServiceNameARM: 'Az_SVC_Connection'
           appType: 'functionAppLinux'
           appName: 'azure-devOps-func'
-          package: '$(System.ArtifactsDirectory)'
+          package: '$($(System.ArtifactsDirectory)'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
-          #Uncomment the next lines to deploy to a deployment slot
-          #Note that deployment slots is not supported for Linux Dynamic SKU
-          #deployToSlotOrASE: true
-          #resourceGroupName: '<Resource Group Name>'
-          #slotName: '<Slot name>'
+          deploymentMethod: 'runFromPackage'
