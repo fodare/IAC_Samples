@@ -62,8 +62,9 @@ stages:
             buildType: 'current'
             downloadType: 'single'
             artifactName: 'drop'
-            itemPattern: '**.zip'
+            itemPattern: 
             downloadPath: '$(System.ArtifactsDirectory)'
+            cleanDestinationFolder: true
     
     - job: Deployapp
       displayName: Deploy function app
@@ -73,7 +74,7 @@ stages:
           azureSubscription: 'Az_SVC_Connection'
           appType: 'functionAppLinux'
           appName: 'azure-devOps-func'
-          package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          package: '$(System.ArtifactsDirectory)'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
           #Uncomment the next lines to deploy to a deployment slot
           #Note that deployment slots is not supported for Linux Dynamic SKU
