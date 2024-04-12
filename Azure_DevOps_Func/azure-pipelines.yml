@@ -49,9 +49,9 @@ stages:
 
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         ArtifactName: 'drop'
-        publishLocation: 'Container'
+        
 
 - stage: Deploy
   dependsOn: Build
@@ -75,6 +75,6 @@ stages:
           connectedServiceNameARM: 'Az_SVC_Connection'
           appType: 'functionAppLinux'
           appName: 'azure-devOps-func'
-          package: 'drop'
+          package: '$(System.ArtifactsDirectory)'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
           deploymentMethod: 'runFromPackage'
