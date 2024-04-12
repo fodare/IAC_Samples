@@ -41,4 +41,6 @@ resource "azurerm_function_app" "azure_fa" {
   app_service_plan_id        = azurerm_service_plan.azure_sp.id
   storage_account_name       = azurerm_storage_account.azure_sa.name
   storage_account_access_key = azurerm_storage_account.azure_sa.primary_access_key
+  os_type                    = "linux"
+  version                    = "~3"
 }
