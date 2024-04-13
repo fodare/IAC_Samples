@@ -86,7 +86,7 @@ stages:
           azureSubscription: 'Az_SVC_Connection'
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'func azure functionapp publish azure-devOps-func --csharp'
+          inlineScript: 'func azure functionapp publish azure-devOps-func --csharp -b remote'
           workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
 
       # - task: AzureFunctionApp@2
