@@ -16,7 +16,7 @@ namespace GreeetingsFunction
         }
 
         [Function("Greetings")]
-        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequest req)
+        public async Task<IActionResult> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "greetings")] HttpRequest req)
         {
             _logger.LogInformation("Function app triggred!");
             if (req.Method == "GET")
