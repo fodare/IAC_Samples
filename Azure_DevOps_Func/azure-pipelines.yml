@@ -49,7 +49,7 @@ stages:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'drop'
-        itemPattern: 'drop/*.zip'
+        itemPattern: '*/*.zip'
         downloadPath: '$(System.ArtifactsDirectory)'
 
     - task: AzureFunctionApp@2
