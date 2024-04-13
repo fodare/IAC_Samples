@@ -49,7 +49,7 @@ stages:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'drop'
-        itemPattern: '*.zip'
+        itemPattern: 'drop/*.zip'
         downloadPath: '$(System.ArtifactsDirectory)'
 
     - task: AzureFunctionApp@2
@@ -57,7 +57,7 @@ stages:
         connectedServiceNameARM: 'Az_SVC_Connection'
         appType: 'functionAppLinux'
         appName: 'azure-devOps-func'
-        package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        package: '$(System.ArtifactsDirectory)'
         runtimeStack: 'DOTNET-ISOLATED|7.0'
         deploymentMethod: 'runFromPackage'
 
