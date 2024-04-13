@@ -52,33 +52,44 @@ stages:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         ArtifactName: 'drop'
         publishLocation: 'Container'
+    
+    - task: AzureFunctionApp@2
+      inputs:
+        connectedServiceNameARM: 'Az_SVC_Connection'
+        appType: 'functionAppLinux'
+        appName: 'azure-devOps-func'
+        package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        runtimeStack: 'DOTNET-ISOLATED|7.0'
+        deploymentMethod: 'zipDeploy'
         
 
-- stage: Deploy
-  dependsOn: Build
-  jobs:
-    - job: 
-      displayName: Download build artifacts
-      steps:
-        - task: DownloadBuildArtifacts@1
-          inputs:
-            buildType: 'current'
-            downloadType: 'single'
-            artifactName: 'drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
-            cleanDestinationFolder: true
+# - stage: Deploy
+#   dependsOn: Build
+#   jobs:
+#     - job: 
+#       displayName: Download build artifacts
+#       steps:
+#         - task: DownloadBuildArtifacts@1
+#           inputs:
+#             buildType: 'current'
+#             downloadType: 'single'
+#             artifactName: 'drop'
+#             downloadPath: '$(System.ArtifactsDirectory)'
+#             cleanDestinationFolder: true
     
-    - job: Deployapp
-      displayName: Update AZ function
-      steps:
-      - task: AzureFunctionApp@2
-        inputs:
-          connectedServiceNameARM: 'Az_SVC_Connection'
-          appType: 'functionAppLinux'
-          appName: 'azure-devOps-func'
-          package: '$(System.ArtifactsDirectory)'
-          runtimeStack: 'DOTNET-ISOLATED|7.0'
-          deploymentMethod: 'zipDeploy'
+#     - job: Deployapp
+#       displayName: Update AZ function
+#       steps:
+#       - task: AzureFunctionApp@2
+#         inputs:
+#           connectedServiceNameARM: 'Az_SVC_Connection'
+#           appType: 'functionAppLinux'
+#           appName: 'azure-devOps-func'
+#           package: '$(System.ArtifactsDirectory)'
+#           runtimeStack: 'DOTNET-ISOLATED|7.0'
+#           deploymentMethod: 'zipDeploy'
+
+
       # - task: AzureCLI@2
       #   displayName: AZ SP Login
       #   inputs:
