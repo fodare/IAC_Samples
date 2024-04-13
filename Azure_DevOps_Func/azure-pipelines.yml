@@ -51,7 +51,6 @@ stages:
         artifactName: 'drop'
         itemPattern: '*.zip'
         downloadPath: '$(System.ArtifactsDirectory)'
-        cleanDestinationFolder: true
 
     - task: AzureFunctionApp@2
       inputs:
