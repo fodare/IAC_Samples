@@ -43,26 +43,42 @@ stages:
         ArtifactName: 'drop'
         publishLocation: 'Container'
 
-    - task: AzureCLI@2
-      displayName: AZ SP Login
+    - task: DownloadBuildArtifacts@1
       inputs:
-        azureSubscription: 'Az_SVC_Connection'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: 'az login --service-principal -u $(SP_USERNAME) -p $(SP_PASSWORD) --tenant $(SP_TENANTID)'
-        useGlobalConfig: true
-        failOnStandardError: true
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+        cleanDestinationFolder: true
 
-    - task: AzureCLI@2
-      displayName: Deploy to funciton App
+    - task: AzureFunctionApp@2
       inputs:
-        azureSubscription: 'Az_SVC_Connection'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: |
-          'az functionapp deployment source config-zip 
-          -g $(RG_NAME) -n $(FUNC_APPNAME) --src $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-        workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
+        connectedServiceNameARM: 'Az_SVC_Connection'
+        appType: 'functionAppLinux'
+        appName: 'azure-devOps-func'
+        package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        runtimeStack: 'DOTNET-ISOLATED|7.0'
+        deploymentMethod: 'runFromPackage'
+
+    # - task: AzureCLI@2
+    #   displayName: AZ SP Login
+    #   inputs:
+    #     azureSubscription: 'Az_SVC_Connection'
+    #     scriptType: 'bash'
+    #     scriptLocation: 'inlineScript'
+    #     inlineScript: 'az login --service-principal -u $(SP_USERNAME) -p $(SP_PASSWORD) --tenant $(SP_TENANTID)'
+    #     useGlobalConfig: true
+    #     failOnStandardError: true
+
+    # - task: AzureCLI@2
+    #   displayName: Deploy to funciton App
+    #   inputs:
+    #     azureSubscription: 'Az_SVC_Connection'
+    #     scriptType: 'bash'
+    #     scriptLocation: 'inlineScript'
+    #     inlineScript: |
+    #       'az functionapp deployment source config-zip -g $(RG_NAME) -n $(FUNC_APPNAME) --src $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
     
         
 
