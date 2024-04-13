@@ -24,12 +24,19 @@ stages:
         dotnet restore
         dotnet build --configuration Release
       workingDirectory: $(projectRoot)
-  
-  - job: publishapp
-    dependsOn: buildapp
-    displayName: Publish and zip application project file
-    steps:
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'publish'
+        publishWebProjects: false
+        projects: '*.csproj'
+        arguments: '--configuration Release --output publish_output'
+        zipAfterPublish: false
+        modifyOutputPath: false
+        workingDirectory: '$(projectRoot)'
+
     - task: ArchiveFiles@2
+      displayName: "Archive project file"
       inputs:
         rootFolderOrFile: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
         includeRootFolder: false
@@ -39,74 +46,17 @@ stages:
         verbose: true
 
     - task: PublishBuildArtifacts@1
+      displayName: Publish build artifact
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         ArtifactName: 'drop'
         publishLocation: 'Container'
-
-    - task: DownloadBuildArtifacts@1
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
-        itemPattern: '*/*.zip'
-        downloadPath: '$(System.ArtifactsDirectory)'
-
+    
     - task: AzureFunctionApp@2
+      displayName: Update function app
       inputs:
         connectedServiceNameARM: 'Az_SVC_Connection'
         appType: 'functionAppLinux'
-        appName: 'azure-devOps-func'
-        package: '$(System.ArtifactsDirectory)'
-        runtimeStack: 'DOTNET-ISOLATED|7.0'
-        deploymentMethod: 'runFromPackage'
-
-    # - task: AzureCLI@2
-    #   displayName: AZ SP Login
-    #   inputs:
-    #     azureSubscription: 'Az_SVC_Connection'
-    #     scriptType: 'bash'
-    #     scriptLocation: 'inlineScript'
-    #     inlineScript: 'az login --service-principal -u $(SP_USERNAME) -p $(SP_PASSWORD) --tenant $(SP_TENANTID)'
-    #     useGlobalConfig: true
-    #     failOnStandardError: true
-
-    # - task: AzureCLI@2
-    #   displayName: Deploy to funciton App
-    #   inputs:
-    #     azureSubscription: 'Az_SVC_Connection'
-    #     scriptType: 'bash'
-    #     scriptLocation: 'inlineScript'
-    #     inlineScript: |
-    #       'az functionapp deployment source config-zip -g $(RG_NAME) -n $(FUNC_APPNAME) --src $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    #     workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
-    
-        
-
-# - stage: Deploy
-#   dependsOn: Build
-#   jobs:
-#     - job: 
-#       displayName: Download build artifacts
-#       steps:
-#         - task: DownloadBuildArtifacts@1
-#           inputs:
-#             buildType: 'current'
-#             downloadType: 'single'
-#             artifactName: 'drop'
-#             downloadPath: '$(System.ArtifactsDirectory)'
-#             cleanDestinationFolder: true
-    
-#     - job: Deployapp
-#       displayName: Update AZ function
-#       steps:
-#       - task: AzureFunctionApp@2
-#         inputs:
-#           connectedServiceNameARM: 'Az_SVC_Connection'
-#           appType: 'functionAppLinux'
-#           appName: 'azure-devOps-func'
-#           package: '$(System.ArtifactsDirectory)'
-#           runtimeStack: 'DOTNET-ISOLATED|7.0'
-#           deploymentMethod: 'zipDeploy'
-
-      
+        appName: 'azure_devOps_func_sp'
+        package: '$(Build.ArtifactStagingDirectory)/**/*.zip'
+        deploymentMethod: 'auto'
