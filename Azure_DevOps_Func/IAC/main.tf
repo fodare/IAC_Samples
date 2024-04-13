@@ -47,6 +47,5 @@ resource "azurerm_function_app" "azure_fa" {
   app_settings = {
     "WEBSITE_RUN_FROM_PACKAGE"     = ""
     SCM_DO_BUILD_DURING_DEPLOYMENT = true
-    FUNCTIONS_WORKER_RUNTIME       = "csharp"
   }
 }
