@@ -48,7 +48,7 @@ stages:
         buildType: 'current'
         downloadType: 'single'
         artifactName: 'drop'
-        itemPattern: '**.zip'
+        itemPattern: '*.zip'
         downloadPath: '$(System.ArtifactsDirectory)'
         cleanDestinationFolder: true
 
