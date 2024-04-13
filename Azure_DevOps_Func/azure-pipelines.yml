@@ -16,7 +16,8 @@ stages:
     workspace:
       clean: all
   
-  - job: buildapp 
+  - job: buildapp
+    dependsOn: clean
     displayName: Build and restore app
     steps:
     - script: |
@@ -57,7 +58,7 @@ stages:
         connectedServiceNameARM: 'Az_SVC_Connection'
         appType: 'functionAppLinux'
         appName: 'azure-devOps-func'
-        package: '$(System.ArtifactsDirectory)'
+        package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         runtimeStack: 'DOTNET-ISOLATED|7.0'
         deploymentMethod: 'runFromPackage'
 
