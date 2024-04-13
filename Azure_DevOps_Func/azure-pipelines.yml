@@ -79,15 +79,16 @@ stages:
           scriptLocation: 'inlineScript'
           inlineScript: 'az login --service-principal -u $(SP_USERNAME) -p $(SP_PASSWORD) --tenant $(SP_TENANTID)'
           useGlobalConfig: true
-          workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
           failOnStandardError: true
 
-      - script: |
-        displayName: Update AZ function
-          func azure functionapp publish azure-devOps-func
-        workingDirectory: $(System.DefaultWorkingDirectory)/Azure_DevOps_Func
-
-
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'Az_SVC_Connection'
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: 'func azure functionapp publish azure-devOps-func'
+          failOnStandardError: true
+          workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
 
       # - task: AzureFunctionApp@2
       #   inputs:
