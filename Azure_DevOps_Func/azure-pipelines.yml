@@ -86,7 +86,7 @@ stages:
           azureSubscription: 'Az_SVC_Connection'
           scriptType: 'bash'
           scriptLocation: 'inlineScript'
-          inlineScript: 'func azure functionapp publish azure-devOps-func'
+          inlineScript: 'func azure functionapp publish azure-devOps-func --csharp'
           failOnStandardError: true
           workingDirectory: '$(System.DefaultWorkingDirectory)/Azure_DevOps_Func'
 
