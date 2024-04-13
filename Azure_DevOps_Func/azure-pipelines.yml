@@ -85,6 +85,7 @@ stages:
       - script: |
         displayName: Update AZ function
           func azure functionapp publish azure-devOps-func
+        workingDirectory: $(System.DefaultWorkingDirectory)/Azure_DevOps_Func
 
 
 
