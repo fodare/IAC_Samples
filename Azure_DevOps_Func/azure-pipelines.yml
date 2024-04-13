@@ -57,6 +57,6 @@ stages:
       inputs:
         connectedServiceNameARM: 'Az_SVC_Connection'
         appType: 'functionAppLinux'
-        appName: 'azure_devOps_func_sp'
+        appName: 'azure-devOps-func'
         package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         deploymentMethod: 'auto'
