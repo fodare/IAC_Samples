@@ -25,15 +25,15 @@ stages:
         dotnet build --configuration Release
       workingDirectory: $(projectRoot)
 
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'publish'
-        publishWebProjects: false
-        projects: '*.csproj'
-        arguments: '--configuration Release --output publish_output'
-        zipAfterPublish: false
-        modifyOutputPath: false
-        workingDirectory: '$(projectRoot)'
+    # - task: DotNetCoreCLI@2
+    #   inputs:
+    #     command: 'publish'
+    #     publishWebProjects: false
+    #     projects: '*.csproj'
+    #     arguments: '--configuration Release --output publish_output'
+    #     zipAfterPublish: false
+    #     modifyOutputPath: false
+    #     workingDirectory: '$(projectRoot)'
 
     - task: ArchiveFiles@2
       displayName: "Archive project file"
