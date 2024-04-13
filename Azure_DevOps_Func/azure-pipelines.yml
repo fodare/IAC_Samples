@@ -60,7 +60,7 @@ stages:
         appName: 'azure-devOps-func'
         package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         runtimeStack: 'DOTNET-ISOLATED|7.0'
-        deploymentMethod: 'zipDeploy'
+        deploymentMethod: 'runFromPackage'
         
 
 # - stage: Deploy
