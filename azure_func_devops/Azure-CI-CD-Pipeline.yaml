@@ -7,7 +7,7 @@ pool:
 variables:
    app_name: azure-devops-func
    working_directory: '$(System.DefaultWorkingDirectory)/azure_func_devops'
-   image_repo: "openops/demo-function"
+   image_repo: 'openops/demo-function'
 
 jobs:
    - job: clean
@@ -52,6 +52,9 @@ jobs:
         inputs:
           azureSubscription: 'Az_SVC_Connection'
           appName: '$(app_name)'
-          imageName: '$(image_repo):$(Build.BuildId)'
+          deployToSlotOrASE: true
+          resourceGroupName: 'test-rg'
+          slotName: 'production'
+          imageName: $(image_repo):$(Build.BuildId)
 
    
