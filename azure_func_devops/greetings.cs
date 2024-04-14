@@ -15,7 +15,7 @@ namespace azure_func_devops
         }
 
         [Function("greetings")]
-        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
+        public HttpResponseData Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = "greetings")] HttpRequestData req)
         {
             _logger.LogInformation("Function triggered!");
             if (req.Method == "GET")
