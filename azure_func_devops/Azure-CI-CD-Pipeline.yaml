@@ -5,10 +5,30 @@ pool:
    name: Default
 
 variables:
-   # python.version: '3.7.6'
-   # ToDo: Replace the service connection name as used in the DevOps project settings
-   azureServiceConnectionId: "Temp-connection1"
-   # Project root folder. Point to the folder containing manage.py file.
-   projectRoot: $(System.DefaultWorkingDirectory)
-   # Environment name
-   environmentName: "test"
+   app_name: azure-devops-func
+   working_directory: $(System.DefaultWorkingDirectory)/azure_func_devops
+
+jobs:
+   - job: clean
+     displayName: Clean agent working dir
+     workspace:
+        clean: all
+
+   - job: restore
+     displayName: Restore application
+     steps:
+      - task: CmdLine@2
+        inputs:
+          script: |
+            dotnet builld
+            dotnet restore
+          workingDirectory: '$(working_directory)'
+   
+      - task: AzureFunctionAppContainer@1
+        displayName: Deploy container
+        inputs:
+          azureSubscription: 'Az_SVC_Connection'
+          appName: '$(app_name)'
+          imageName: 'openops/demo-function:0.0.1'
+
+   
