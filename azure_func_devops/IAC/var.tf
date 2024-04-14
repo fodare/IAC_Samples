@@ -25,5 +25,5 @@ variable "service_plan_name" {
 variable "azure_function_name" {
   type        = string
   description = "Desired function app name"
-  default     = "azure_devops_func"
+  default     = "azure-devops-func"
 }
