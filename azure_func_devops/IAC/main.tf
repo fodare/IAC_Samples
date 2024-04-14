@@ -39,7 +39,7 @@ resource "azurerm_linux_function_app" "az_func" {
   resource_group_name        = azurerm_resource_group.az_group.name
   location                   = azurerm_resource_group.az_group.location
   storage_account_name       = azurerm_storage_account.az_sa.name
-  storage_account_access_key = azurerm_storage_accousnt.az_sa.primary_access_key
+  storage_account_access_key = azurerm_storage_account.az_sa.primary_access_key
   service_plan_id            = azurerm_service_plan.az_sp.id
 
   site_config {}
