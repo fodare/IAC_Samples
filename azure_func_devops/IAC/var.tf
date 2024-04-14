@@ -13,7 +13,7 @@ variable "resource_groupLocation" {
 variable "storage_account_name" {
   type        = string
   description = "Desired storage account name"
-  default     = "test-sa"
+  default     = "testlinuxfunctionappsa"
 }
 
 variable "service_plan_name" {
