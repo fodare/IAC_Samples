@@ -43,5 +43,7 @@ resource "azurerm_linux_function_app" "azfunc" {
   service_plan_id            = azurerm_service_plan.azsp.id
 
   site_config {}
-  app_settings = {}
+  app_settings = {
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
+  }
 }
