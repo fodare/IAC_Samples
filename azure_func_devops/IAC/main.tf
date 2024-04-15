@@ -44,6 +44,6 @@ resource "azurerm_linux_function_app" "azfunc" {
 
   site_config {}
   app_settings = {
-    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet-isolated"
   }
 }
