@@ -19,42 +19,35 @@ jobs:
      dependsOn: clean
      displayName: Restore application
      steps:
-      - task: CmdLine@2
+      - script: |
+          dotnet restore
+          dotnet build --configuration Release
+        displayName: Build and restore application
+      
+      - task: DotNetCoreCLI@2
+        displayName: Dotnet publish
         inputs:
-          script: |
-            dotnet build
-            dotnet restore
+          command: 'publish'
+          publishWebProjects: false
+          projects: '*.csproj'
+          arguments: '--configuration Release --output publish_output'
+          zipAfterPublish: false
+          modifyOutputPath: false
           workingDirectory: '$(working_directory)'
-
-      - task: Docker@2
-        displayName: docker login
+      
+      - task: ArchiveFiles@2
+        displayName: Archive project files
         inputs:
-          containerRegistry: 'Dockrer-Hub-Connection'
-          command: 'login'
-
-      - task: Docker@2
-        displayName: docker build image
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+          replaceExistingArchive: true
+          verbose: true
+      
+      - task: PublishBuildArtifacts@1
+        displayName: Publish Build Artifacts
         inputs:
-          containerRegistry: 'Dockrer-Hub-Connection'
-          repository: '$(image_repo)'
-          command: 'build'
-          Dockerfile: '$(System.DefaultWorkingDirectory)/azure_func_devops/Dockerfile'
-
-      - task: Docker@2
-        displayName: docker push
-        inputs:
-          containerRegistry: 'Dockrer-Hub-Connection'
-          repository: '$(image_repo)'
-          command: 'push'
-   
-      - task: AzureFunctionAppContainer@1
-        displayName: Deploy container
-        inputs:
-          azureSubscription: 'Az_SVC_Connection'
-          appName: '$(app_name)'
-          deployToSlotOrASE: true
-          resourceGroupName: 'test-rg'
-          slotName: 'production'
-          imageName: $(image_repo):$(Build.BuildId)
-
-   
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
