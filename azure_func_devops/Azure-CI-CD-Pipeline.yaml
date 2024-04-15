@@ -30,7 +30,7 @@ jobs:
         inputs:
           command: 'publish'
           publishWebProjects: false
-          projects: '*.csproj'
+          projects: '*/*.csproj'
           arguments: '--configuration Release --output publish_output'
           zipAfterPublish: false
           modifyOutputPath: false
