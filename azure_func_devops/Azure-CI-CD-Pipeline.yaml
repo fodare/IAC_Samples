@@ -58,6 +58,6 @@ jobs:
           connectedServiceNameARM: 'Az_SVC_Connection'
           appType: 'functionAppLinux'
           appName: 'azure-devops-func'
-          package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          package: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
           runtimeStack: 'DOTNET-ISOLATED|7.0'
           deploymentMethod: 'zipDeploy'
