@@ -23,6 +23,7 @@ jobs:
           dotnet restore
           dotnet build --configuration Release
         displayName: Build and restore application
+        workingDirectory: '$(working_directory)'
       
       - task: DotNetCoreCLI@2
         displayName: Dotnet publish
