@@ -37,18 +37,17 @@ jobs:
           workingDirectory: '$(working_directory)'
       
       - task: ArchiveFiles@2
-        displayName: Archive project files
         inputs:
-          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/publish_output'
+          rootFolderOrFile: '$(Build.BinariesDirectory)'
           includeRootFolder: false
           archiveType: 'zip'
-          archiveFile: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
           replaceExistingArchive: true
           verbose: true
       
       - task: PublishBuildArtifacts@1
         displayName: Publish Build Artifacts
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
           ArtifactName: 'drop'
           publishLocation: 'Container'
