@@ -51,3 +51,13 @@ jobs:
           PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
           ArtifactName: 'drop'
           publishLocation: 'Container'
+
+      - task: AzureFunctionApp@2
+        displayName: Update function code
+        inputs:
+          connectedServiceNameARM: 'Az_SVC_Connection'
+          appType: 'functionAppLinux'
+          appName: 'azure-devops-func'
+          package: '$(System.DefaultWorkingDirectory)/**/*.zip'
+          runtimeStack: 'DOTNET-ISOLATED|7.0'
+          deploymentMethod: 'zipDeploy'
