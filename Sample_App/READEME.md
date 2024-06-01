@@ -16,3 +16,8 @@ docker image build -t wise_app:0.1 .
 # Run app.
 docker run -d --name wise_app -p 3002:5000 wise_app:0.1
 ```
+
+## Resources
+
+- Get comparison: `http://localhost:5000/`
+- Get service health: `http://localhost:5000/resource`
