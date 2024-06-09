@@ -40,11 +40,10 @@ metadata:
   name: sample-app
 spec:
   ports:
-  - nodePort: 30179
-    port: 5000
+  - port: 8100 
     protocol: TCP
-    targetPort: 5000
-  selector:
+    targetPort: 8100
+  selector: 
     app: sample-app
   sessionAffinity: None
-  type: LoadBalancer
+  type: NodePort
