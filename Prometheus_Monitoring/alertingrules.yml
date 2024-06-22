@@ -1,0 +1,11 @@
+---
+groups: 
+- name: server_down
+  rules: 
+  - alert: server_down
+    expr: up == 0
+    for: 1m
+    labels: 
+      serverity: page
+    annotations:
+      summary: Server(s) might be down.
