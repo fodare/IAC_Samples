@@ -1,0 +1,28 @@
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval:  1h
+  receiver: 'webhook_notification'
+receivers:
+- name: 'webhook_notification'
+  webhook_configs:
+    #   The endpoint to send HTTP POST requests to.
+    #   url and url_file are mutually exclusive.
+  - url: 'Enter weebhook url'
+    # Whether to notify about resolved alerts.
+    send_resolved: true
+    
+    # url_file: <filepath>
+    #   The HTTP client's configuration.
+    # - http_config: global.http_config 
+    #   The maximum number of alerts to include in a single webhook message. Alerts
+    #   above this threshold are truncated. When leaving this at its default value of
+    #   0, all alerts are included.
+    # max_alerts: 1
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname']

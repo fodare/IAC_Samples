@@ -3,6 +3,18 @@ global:
   external_labels: # Attach these labels to any time series or alerts when communicating with external systems
     monitor: 'local-server'
 
+# Alert manager configuration
+alerting: 
+  alertmanagers:
+    - static_configs: 
+        - targets: 
+          - 'alertmanager:9093' 
+
+# Rules loaded once and preodically evaluated.
+rule_files: 
+  - 'alertingrules.yml'
+  #- 'alertmanager.yml'
+
 scrape_configs:
   - job_name: 'prometheus' # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
     scrape_interval: 5s # Override the global default and scrape targets from this job every 5 seconds.
@@ -12,4 +24,5 @@ scrape_configs:
   - job_name: 'node-exporter'
     scrape_interval: 5s
     static_configs:
-      - targets: ['node_exporter:9100']
+      - targets: 
+        - 'node_exporter:9100'
