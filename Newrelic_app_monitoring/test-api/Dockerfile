@@ -1,12 +1,4 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /App
-
-# Copy everything
-COPY . ./
-# Restore as distinct layers
-RUN dotnet restore
-# Build and publish a release
-RUN dotnet publish -c Release -o out
 
 # Install the agent
 RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
@@ -19,12 +11,21 @@ RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 
 # Enable the agent
 ENV CORECLR_ENABLE_PROFILING=1 \
-CORECLR_PROFILER={} \
+CORECLR_PROFILER={Enter profiler id} \
 CORECLR_NEWRELIC_HOME=/usr/local/newrelic-dotnet-agent \
 CORECLR_PROFILER_PATH=/usr/local/newrelic-dotnet-agent/libNewRelicProfiler.so \
-NEW_RELIC_LICENSE_KEY=Enter your NEW_RELIC_LICENSE_KEY \
-NEW_RELIC_APP_NAME="dotnetSample"
+NEW_RELIC_LICENSE_KEY= Enter NEW_RELIC_LICENSE_KEY \
+NEW_RELIC_APP_NAME="Enter App name"
 
+WORKDIR /App
+
+# Copy everything
+COPY . ./
+# Build and Restore as distinct layers
+RUN dotnet build
+RUN dotnet restore
+# Build and publish a release
+RUN dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
