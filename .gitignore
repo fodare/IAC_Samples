@@ -18,3 +18,8 @@ __pycache*
 # Local VS code files
 *.vscode
 .fake
+
+# Local dotnet project  files
+*bin*
+*obj*
+*test-api.http
