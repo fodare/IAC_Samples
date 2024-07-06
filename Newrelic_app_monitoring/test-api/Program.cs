@@ -40,12 +40,14 @@ app.MapGet("/status", () =>
 {
     string currentVersion = Environment.GetEnvironmentVariable("appVersion") ?? "V.0.1";
     string serverDate = DateTime.Now.ToString("h:mm:ss tt");
-    return new
+    var _response = new
     {
         appVersion = currentVersion,
         currentTime = serverDate,
         serverName = Environment.MachineName
     };
+    Console.WriteLine(_response);
+    return _response;
 });
 
 app.Run();

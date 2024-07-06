@@ -11,11 +11,11 @@ RUN apt-get update && apt-get install -y wget ca-certificates gnupg \
 
 # Enable the agent
 ENV CORECLR_ENABLE_PROFILING=1 \
-CORECLR_PROFILER={Enter profiler id} \
+CORECLR_PROFILER=3{Enter profiler id}\
 CORECLR_NEWRELIC_HOME=/usr/local/newrelic-dotnet-agent \
 CORECLR_PROFILER_PATH=/usr/local/newrelic-dotnet-agent/libNewRelicProfiler.so \
-NEW_RELIC_LICENSE_KEY= Enter NEW_RELIC_LICENSE_KEY \
-NEW_RELIC_APP_NAME="Enter App name"
+NEW_RELIC_LICENSE_KEY={Enter NEW_RELIC_LICENSE_KEY} \
+NEW_RELIC_APP_NAME="{Enter app name}"
 
 WORKDIR /App
 
