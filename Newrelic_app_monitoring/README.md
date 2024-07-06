@@ -13,7 +13,7 @@ To start containarized application, run the commands below.
 docker image build -t {image name}:{version} .
 
 # Start container from image.
-docker run -d --name {container name} -p 8080:8080 -e appVersion:"V.0.1" -e NEW_RELIC_REGION=eu {image name}
+docker run -d --name dotnetapp -p 8080:8080 -e appVersion="V.0.3" -e NEW_RELIC_REGION=eu -e NEW_RELIC_APPLICATION_LOGGING_ENABLED=true -e NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED=true -e NEW_RELIC_APPLICATION_LOGGING_FORWARDING_CONTEXT_DATA_ENABLED=true -e NEW_RELIC_APPLICATION_LOGGING_FORWARDING_MAX_SAMPLES_STORED=10000 -e NEW_RELIC_APPLICATION_LOGGING_LOCAL_DECORATING_ENABLED=false dotnetapp:latest 
 ```
 
 Note: The tmeplate does not cover infrastructure monitoring. To activate infrastructure monitoring, run the docker container below.
